@@ -1,0 +1,16 @@
+/*
+	This is used in the initialization phase via pluginManagement.gradle via settings.gradle.  It's applied to a
+	resolutionStrategy object.
+
+	It installs a callback that will lookup plugin names in an index and map them to a module.  Any plugin configured
+	in this way will be available using the `plugins { id 'x' }` block syntax.
+ */
+
+def index = [
+	'kotlin'							: "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}",
+	'org.junit.platform.gradle.plugin'	: "org.junit.platform:junit-platform-gradle-plugin:${junitPluginVersion}",
+]
+
+eachPlugin {
+	index.get(requested.id.id)?.with({useModule it})
+}

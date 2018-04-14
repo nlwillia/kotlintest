@@ -1,0 +1,15 @@
+/*
+	This is just a stub to include other blocks.  It's assumed that we're applying to a pluginManagement block in the
+	initialization phase.  The relative paths work in that context.
+
+	Gradle's DSL doesn't let us declare a resolutionStrategy block directly, but we can apply to it from a script.
+
+	Because we're in the initialization phase, for config properties to be available, we have to apply them directly.
+ */
+
+// Target is pluginManagement
+apply from: './config.gradle'
+apply from: './repos.gradle'
+
+apply from: './config.gradle', to: resolutionStrategy
+apply from: './plugins.gradle', to: resolutionStrategy

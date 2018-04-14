@@ -1,0 +1,17 @@
+/*
+	The pluginManagement block is an incubating DSL feature.  It's only currently supported in settings.gradle.  We
+	can't declare `pluginManagement {}` in another file, but we can use PluginAware's `apply` method to bind external
+	snippets to the object available in this file.
+
+	See:
+	https://docs.gradle.org/current/userguide/build_lifecycle.html
+	https://docs.gradle.org/current/userguide/plugins.html#sec:plugin_management
+ */
+
+rootProject.name = 'kotlintest'
+
+apply from: 'gradle/common/pluginManagement.gradle', to: pluginManagement
+
+// Add subprojects to the build
+include 'sub1'
+include 'sub2'

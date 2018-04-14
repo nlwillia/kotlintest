@@ -12,3 +12,11 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
+.idea
+/kotlintest.iml
+/sub1/out
+/sub1/build
+/sub2/out
+/sub2/build
+build
+out

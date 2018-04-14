@@ -1,0 +1,12 @@
+/*
+	The configuration here is the same as for sub1.  Any number of subprojects can incorporate the definitions that
+	produces these features with a relatively small amount of local configuration.
+ */
+
+plugins {
+	id 'java'
+	id 'kotlin'
+	id 'org.junit.platform.gradle.plugin'
+}
+
+apply from: '../gradle/common/kotlintest.gradle'

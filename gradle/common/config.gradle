@@ -1,0 +1,24 @@
+/*
+	It's useful to consolidate common properties in a single place.  Real-world projects may have more complex needs,
+	but this demonstrates how a single configuration set can be used across the build environment and lifecycle.
+
+	The assumption is that config.gradle is being applied to an object with ExtraPropertiesExtension support.
+ */
+
+/*
+ * Default versions for common dependencies.
+ */
+ext.gradleVersion = '4.6'
+ext.kotlinVersion = '1.2.31'
+ext.kluentVersion = '1.35'
+ext.jupiterVersion = '5.1.0'
+ext.spekVersion = '1.1.5'
+ext.spekJunitVersion = '1.1.5'
+ext.junitPluginVersion = '1.1.0'
+
+/*
+ * Repository urls.
+ */
+ext.repositoryUri = 'http://localhost:8085/artifactory'
+ext.repositoryUrl = "${repositoryUri}/libs-release"
+ext.distributionUrl = "${repositoryUri}/gradle-distributions/gradle-${gradleVersion}-all.zip"

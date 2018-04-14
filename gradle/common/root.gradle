@@ -1,0 +1,20 @@
+/*
+	This should be applied to the root project.  It applies config and repository settings to each project in the build.
+
+	If there are cross-project compiler configuration standards, this is also a good place to define them.
+
+	It also defines a wrapper task that uses the central gradle version and location configuration.
+
+	Path resolution requires some gymnastics to ensure that the same common files are found by every project.
+ */
+
+def commonPath = buildscript.sourceFile.parent
+allprojects {
+	apply from: new File(commonPath, 'config.gradle'), to: project
+	apply from: new File(commonPath, 'repos.gradle')
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = "${project.gradleVersion}"
+	distributionUrl = "${project.distributionUrl}"
+}

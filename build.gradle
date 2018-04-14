@@ -1,0 +1,6 @@
+/*
+	Root build files in multi-project builds tend to be relatively sparse.  The root file applied here injects
+	common settings into all projects.
+ */
+
+apply from: 'gradle/common/root.gradle'
