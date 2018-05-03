@@ -5,7 +5,7 @@ This is a skeleton project demonstrating the following:
 - Sharing of common build logic using script plugins.
 - Delegation of dependency management (including plugins and Gradle itself) to a private repository.
 - Minimizing repetition of configuration boilerplate at the settings and project level.
-- Using Kotlin to test Java projects.  (Specifically, JUnit, Spek and Kluent.)
+- Using [Kotlin](http://kotlinlang.org/docs/reference/using-gradle.html) to test Java projects.  (Specifically, [JUnit](https://junit.org/junit5/docs/current/user-guide/#running-tests-build), [Spek](http://spekframework.org/docs/latest/#_gradle) and [Kluent](https://github.com/MarkusAmshove/Kluent#gradle).)
 
 See `*.gradle` for specifics and discussion or below for more about setup and background.
 
