@@ -1,7 +1,7 @@
 # Gradle Skeleton
 
 This is a skeleton project demonstrating the following:
-- Multi-project Gradle configuration.
+- Multi-project Gradle configuration (project dependencies, alternative configurations).
 - Sharing of common build logic using script plugins.
 - Delegation of dependency management (including plugins and Gradle itself) to a private repository.
 - Minimizing repetition of configuration boilerplate at the settings and project level.
@@ -44,7 +44,7 @@ For multiple standalone projects wanting to share common configuration, it might
 
 ## Why?
 
-Not all of these approaches may be ideal, but they represent natural impulses when dealing with repeated elements across similar builds, and discovering how to accomplish them with the tools Gradle provides can be challenging.  Hopefully future versions of Gradle will continue to improve so that the goals of centralizing repository configuration and encapsulating transitive plugin dependency relationships are better served.
+Not all of these approaches may be ideal, but they represent natural impulses when dealing with repeated elements across similar builds, and discovering how to accomplish them with the tools Gradle provides can be challenging.  Gradle continues to address pain points, and hopefully future versions will provide idiomatic solutions for these concerns.
 
 ## Comparison
 For comparison, a single project, public repository version of what this example tries to abstract might look like the following `build.gradle`.

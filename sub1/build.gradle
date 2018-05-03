@@ -18,3 +18,11 @@ plugins {
 }
 
 apply from: kotlintestScript
+
+dependencies {
+	// Any code from the main source set
+	compile project(':shared')
+
+	// Any test utility code from the test source set
+	testCompile project(path: ':shared', configuration: 'testArtifacts')
+}

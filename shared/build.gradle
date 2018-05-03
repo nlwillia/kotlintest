@@ -1,0 +1,33 @@
+/*
+	This is a project intended to be reused as a dependency of other projects.  It uses the same common build
+	configuration assets.
+ */
+
+plugins {
+	id 'java'
+	id 'org.jetbrains.kotlin.jvm'
+}
+
+apply from: kotlintestScript
+
+/*
+	Gradle supports defining an alternative configuration/artifact binding for resource sharing between projects.
+
+	The test content of this project wouldn't normally be visible to dependents, but we can package it for explicit
+	dependency via a configuration.
+
+	It might not be practical to put test utility code in the main source set of the project (different language,
+	dependencies, etc.), and this avoids having to create an additional project just for test utility assets (which can
+	have issues of its own with project dependency cycles).
+
+	See: https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.dsl.ArtifactHandler.html
+ */
+
+// This is just a configuration name that we're defining
+configurations { testArtifacts }
+
+// This won't create a physical jar; it's just a logical definition
+task testArtifactsJar(type: Jar) { from sourceSets.test.output }
+
+// This maps the configuration to the task
+artifacts { testArtifacts testArtifactsJar }

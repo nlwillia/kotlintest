@@ -12,7 +12,7 @@
 ext.gradleVersion = '4.7'
 ext.javaVersion = '10'
 ext.kotlinVersion = '1.2.41'
-ext.kluentVersion = '1.37'
+ext.kluentVersion = '1.38'
 ext.jupiterVersion = '5.2.0'
 ext.spekVersion = '1.1.5'
 ext.spekJunitVersion = '1.1.5'

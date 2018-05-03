@@ -13,5 +13,6 @@ rootProject.name = 'kotlintest'
 apply from: 'gradle/common/pluginManagement.gradle', to: pluginManagement
 
 // Add subprojects to the build
+include 'shared'
 include 'sub1'
 include 'sub2'
