@@ -7,8 +7,7 @@
  */
 
 def index = [
-	'kotlin'							: "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}",
-	'org.junit.platform.gradle.plugin'	: "org.junit.platform:junit-platform-gradle-plugin:${junitPluginVersion}",
+	'org.jetbrains.kotlin.jvm'			: "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}",
 ]
 
 eachPlugin {

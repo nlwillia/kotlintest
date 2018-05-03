@@ -11,7 +11,7 @@ See `*.gradle` for specifics and discussion or below for more about setup and ba
 
 ## Artifactory Setup
 
-This example assumes you want to use a private repository server for all remote dependencies of the build.  (If you don't, see `repos.gradle` for a workaround.)  A private server has several advantages:
+This example assumes you want to use a private repository server for all remote dependencies of the build.  A private server has several advantages:
 - It increases the likelihood that your build will work consistently even if upstream providers are down or slow.
 - You have the flexibility to selectively deploy edge or override releases to problematic dependencies without losing the convenience of Gradle-style dependency declaration.
 - Larger organizations may use a private repository for license monitoring or security purposes.
@@ -30,6 +30,7 @@ docker pull docker.bintray.io/jfrog/artifactory-oss
 docker volume create --name my-artifactory-data
 docker run --restart=unless-stopped -d --name jfrog-artifactory-oss-latest -p 8085:8081 -v my-artifactory-data/:/var/opt/jfrog/artifactory docker.bintray.io/jfrog/artifactory-oss:latest
 ```
+See `config.gradle` for further instructions on configuring repository details.
 
 ## Common Build Configuration
 
@@ -37,7 +38,7 @@ In a multi-project build or just across multiple single-project builds you will 
 
 The absolute minimum for a multi-project build is a `settings.gradle` in the root and then a `build.gradle` for each subproject.
 
-In this example, reused configuration added in `gradle/common` and referenced in the project build files.  There's nothing special about that location; it's just out of the way.  Gradle's meta `buildSrc` project can be useful for reused snippets as well, but it's unnecessary in this case.
+In this example, reused configuration is added in `gradle/common` and referenced in the project build files.  There's nothing special about that location; it's just out of the way.  Gradle's meta `buildSrc` project can be useful for reused snippets as well, but it's unnecessary in this case.
 
 For multiple standalone projects wanting to share common configuration, it might be appropriate to maintain the common directory on its own and use a pegged external in the source control configuration to graft it into projects that need it.   
 
@@ -55,26 +56,25 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.31'
-		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
+		classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.41'
 	}
 }
 
 plugins {
 	id 'java'
+	id 'org.jetbrains.kotlin.jvm' version '1.2.41'
 }
-apply plugin: 'kotlin'
-apply plugin: 'org.junit.platform.gradle.plugin'
 
 repositories {
 	jcenter()
 }
 
 dependencies {
-	testCompile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.31'
-	testRuntime 'org.jetbrains.kotlin:kotlin-reflect:1.2.31'
+	testCompile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.41'
+	testRuntime 'org.jetbrains.kotlin:kotlin-reflect:1.2.41'
 
-	testCompile 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+	testCompile 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+	testCompile 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
 
 	testCompile('org.jetbrains.spek:spek-api:1.1.5') {
 		exclude group: 'org.jetbrains.kotlin'
@@ -84,7 +84,7 @@ dependencies {
 		exclude group: 'org.jetbrains.kotlin'
 	}
 
-	testCompile 'org.amshove.kluent:kluent:1.35'
+	testCompile 'org.amshove.kluent:kluent:1.37'
 }
 
 compileTestKotlin {
@@ -93,11 +93,7 @@ compileTestKotlin {
 	}
 }
 
-junitPlatform {
-	filters {
-		engines {
-			include 'spek'
-		}
-	}
+test {
+	useJUnitPlatform()
 }
 ```

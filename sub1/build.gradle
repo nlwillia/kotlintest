@@ -6,16 +6,15 @@
 	1.  It would be nice if kotlintest.gradle could be injected at the pluginManagement.resolutionStrategy level and
 		resolved by name.  (id 'kotlintest')
 
-	2.  More significantly, there's no way for script plugins to inject other plugins, so the internal details of the
-		kotlin and junit plugins can't be encapsulated.  If this is a Java project with kotlin-based testing, then it
+	2.  More significantly, there's no way for script plugins to inject other plugins, so the specific indirect
+		plugin dependencies can't be encapsulated.  If this is a Java project with kotlin-based testing, then it
 		would be preferable to just declare plugins 'java' and 'kotlintest' and not have to worry about any further
 		details.
  */
 
 plugins {
 	id 'java'
-	id 'kotlin'
-	id 'org.junit.platform.gradle.plugin'
+	id 'org.jetbrains.kotlin.jvm'
 }
 
-apply from: '../gradle/common/kotlintest.gradle'
+apply from: kotlintestScript

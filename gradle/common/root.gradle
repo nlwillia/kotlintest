@@ -4,14 +4,30 @@
 	If there are cross-project compiler configuration standards, this is also a good place to define them.
 
 	It also defines a wrapper task that uses the central gradle version and location configuration.
-
-	Path resolution requires some gymnastics to ensure that the same common files are found by every project.
  */
 
-def commonPath = buildscript.sourceFile.parent
 allprojects {
-	apply from: new File(commonPath, 'config.gradle'), to: project
-	apply from: new File(commonPath, 'repos.gradle')
+
+	// Make scripts easier to reference by defining extension properties for them.
+	def commonScript = { String name -> new File(rootProject.file('gradle/common'), name) }
+	ext.configScript = commonScript('config.gradle');
+	ext.kotlintestScript = commonScript('kotlintest.gradle')
+
+	// Apply the config script to every project.
+	apply from: configScript
+
+	// Configure repository location.
+	repositories {
+		maven {
+			url "${repositoryUrl}"
+		}
+	}
+
+	// Example of plugin-specific configuration
+	pluginManager.withPlugin('java') {
+		sourceCompatibility = javaVersion
+		targetCompatibility = javaVersion
+	}
 }
 
 task wrapper(type: Wrapper) {

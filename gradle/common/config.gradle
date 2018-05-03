@@ -3,22 +3,29 @@
 	but this demonstrates how a single configuration set can be used across the build environment and lifecycle.
 
 	The assumption is that config.gradle is being applied to an object with ExtraPropertiesExtension support.
+	Note that we're using this in both the init and configuration phases of the build.
  */
 
 /*
  * Default versions for common dependencies.
  */
-ext.gradleVersion = '4.6'
-ext.kotlinVersion = '1.2.31'
-ext.kluentVersion = '1.35'
-ext.jupiterVersion = '5.1.0'
+ext.gradleVersion = '4.7'
+ext.javaVersion = '10'
+ext.kotlinVersion = '1.2.41'
+ext.kluentVersion = '1.37'
+ext.jupiterVersion = '5.2.0'
 ext.spekVersion = '1.1.5'
 ext.spekJunitVersion = '1.1.5'
-ext.junitPluginVersion = '1.1.0'
 
 /*
  * Repository urls.
  */
 ext.repositoryUri = 'http://localhost:8085/artifactory'
-ext.repositoryUrl = "${repositoryUri}/libs-release"
+ext.pluginsUrl = "${repositoryUri}/libs-release"				// location of plugin dependencies
+ext.repositoryUrl = "${repositoryUri}/libs-release"				// location of application dependencies (if different)
 ext.distributionUrl = "${repositoryUri}/gradle-distributions/gradle-${gradleVersion}-all.zip"
+
+// If you don't want to use artifactory, then uncomment the following.
+//ext.pluginsUrl = 'https://plugins.gradle.org/m2'
+//ext.repositoryUrl = 'https://jcenter.bintray.com'
+//ext.distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"

@@ -5,8 +5,7 @@
 
 plugins {
 	id 'java'
-	id 'kotlin'
-	id 'org.junit.platform.gradle.plugin'
+	id 'org.jetbrains.kotlin.jvm'
 }
 
-apply from: '../gradle/common/kotlintest.gradle'
+apply from: kotlintestScript

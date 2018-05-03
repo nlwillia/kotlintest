@@ -15,6 +15,7 @@ dependencies {
 	testRuntime "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
 
 	testCompile "org.junit.jupiter:junit-jupiter-api:${jupiterVersion}"
+	testRuntime "org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}"
 
 	testCompile("org.jetbrains.spek:spek-api:${spekVersion}") {
 		exclude group: 'org.jetbrains.kotlin'
@@ -33,10 +34,6 @@ compileTestKotlin {
 	}
 }
 
-junitPlatform {
-	filters {
-		engines {
-			include 'spek'
-		}
-	}
+test {
+	useJUnitPlatform()
 }
