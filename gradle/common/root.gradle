@@ -27,10 +27,13 @@ allprojects {
 	pluginManager.withPlugin('java') {
 		sourceCompatibility = javaVersion
 		targetCompatibility = javaVersion
+		compileJava {
+			options.compilerArgs += '-Xlint:all'
+		}
 	}
 }
 
-task wrapper(type: Wrapper) {
+wrapper {
 	gradleVersion = "${project.gradleVersion}"
 	distributionUrl = "${project.distributionUrl}"
 }

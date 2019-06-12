@@ -2,38 +2,45 @@
 	All the previous configuration work makes it possible to encapsulate most of the details needed for kotlin
 	testing support in a script plugin.
 
-	The dependency excludes ensure that our top-level kotlin and JUnit version preferences are not overridden.
-
 	Test language: Kotlin
-	Test runner: JUnit
-	Test framework: Spek
+	Test framework: Spek2
 	Assertion framework: Kluent
+	Mocking: Mockk
  */
 
 dependencies {
-	testCompile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
-	testRuntime "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
+	testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+	testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
 
-	testCompile "org.junit.jupiter:junit-jupiter-api:${jupiterVersion}"
-	testRuntime "org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}"
+	testImplementation "org.spekframework.spek2:spek-dsl-jvm:${spekVersion}"
+	testRuntimeOnly "org.spekframework.spek2:spek-runner-junit5:${spekVersion}"
 
-	testCompile("org.jetbrains.spek:spek-api:${spekVersion}") {
-		exclude group: 'org.jetbrains.kotlin'
-	}
-	testRuntime("org.jetbrains.spek:spek-junit-platform-engine:${spekJunitVersion}") {
-		exclude group: 'org.junit.platform'
-		exclude group: 'org.jetbrains.kotlin'
-	}
-
-	testCompile "org.amshove.kluent:kluent:${kluentVersion}"
+	testImplementation "org.amshove.kluent:kluent:${kluentVersion}"
+	testImplementation "io.mockk:mockk:${mockkVersion}"
+	
+	// JUnit is not used directly in the IDE (the Spek Framework plugin handles test runs), but it's needed for test runs in Gradle.
+	testImplementation "org.junit.jupiter:junit-jupiter-api:${jupiterVersion}"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}"	
 }
 
 compileTestKotlin {
 	kotlinOptions {
-		jvmTarget = '1.8'
+		jvmTarget = "1.8"
+	}
+}
+
+sourceSets {
+	test {
+		java {
+			// Java code can be placed in the Kotlin source tree, but for it to be on the runtime classpath, it needs 
+			// to be added to the Java source set.  See https://kotlinlang.org/docs/reference/using-gradle.html#targeting-the-jvm
+			srcDirs += 'src/test/kotlin'
+		}
 	}
 }
 
 test {
-	useJUnitPlatform()
+	useJUnitPlatform {
+		includeEngines 'spek2'
+	}
 }
