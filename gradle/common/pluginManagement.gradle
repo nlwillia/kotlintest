@@ -12,6 +12,7 @@ apply from: './config.gradle'
 repositories {
 	maven {
 		url "${pluginsUrl}"
+		allowInsecureProtocol = true
 	}
 }
 

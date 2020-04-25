@@ -9,3 +9,8 @@ plugins {
 }
 
 apply from: kotlintestScript
+
+dependencies {
+	// Any code from the main source set
+	implementation project(':shared')
+}

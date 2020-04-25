@@ -20,6 +20,7 @@ allprojects {
 	repositories {
 		maven {
 			url "${repositoryUrl}"
+			allowInsecureProtocol = true
 		}
 	}
 

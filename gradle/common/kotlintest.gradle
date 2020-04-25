@@ -8,19 +8,38 @@
 	Mocking: Mockk
  */
 
+/*
+	Normally, we'd configure testImplementation and testRuntimeOnly directly.
+	(In a full Kotlin project, the stdlib would move up to implementation.)
+
+	But if a project uses testFixtures, then we want to make sure that both test and testFixtures configurations
+	have access to the stdlib and test framework dependencies.  It's easiest to define these at the testFixtures
+	level and extend that.  To do that, we have to make sure that the testFixtures configurations exist.  This will
+	work whether the target project decides to use the java-test-fixtures plugin or not.
+
+	See: https://docs.gradle.org/current/userguide/java_testing.html#sec:java_test_fixtures
+	See: https://youtrack.jetbrains.com/issue/KT-34901 (may not be an issue in this case)
+ */
+configurations {
+	testFixturesImplementation
+	testFixturesRuntimeOnly
+	testImplementation.extendsFrom testFixturesImplementation
+	testRuntimeOnly.extendsFrom testFixturesRuntimeOnly
+}
+
 dependencies {
-	testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
-	testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
+	testFixturesImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+	testFixturesRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
 
-	testImplementation "org.spekframework.spek2:spek-dsl-jvm:${spekVersion}"
-	testRuntimeOnly "org.spekframework.spek2:spek-runner-junit5:${spekVersion}"
+	testFixturesImplementation "org.spekframework.spek2:spek-dsl-jvm:${spekVersion}"
+	testFixturesRuntimeOnly "org.spekframework.spek2:spek-runner-junit5:${spekVersion}"
 
-	testImplementation "org.amshove.kluent:kluent:${kluentVersion}"
-	testImplementation "io.mockk:mockk:${mockkVersion}"
-	
+	testFixturesImplementation "org.amshove.kluent:kluent:${kluentVersion}"
+	testFixturesImplementation "io.mockk:mockk:${mockkVersion}"
+
 	// JUnit is not used directly in the IDE (the Spek Framework plugin handles test runs), but it's needed for test runs in Gradle.
-	testImplementation "org.junit.jupiter:junit-jupiter-api:${jupiterVersion}"
-	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}"	
+	testFixturesImplementation "org.junit.jupiter:junit-jupiter-api:${jupiterVersion}"
+	testFixturesRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}"
 }
 
 compileTestKotlin {
@@ -30,15 +49,21 @@ compileTestKotlin {
 }
 
 sourceSets {
+	// Java code can be placed in the Kotlin source tree, but for it to be on the runtime classpath, it needs
+	// to be added to the Java source set.  See https://kotlinlang.org/docs/reference/using-gradle.html#targeting-the-jvm
+	testFixtures {
+		java {
+			srcDirs += 'src/testFixtures/kotlin'
+		}
+	}
 	test {
 		java {
-			// Java code can be placed in the Kotlin source tree, but for it to be on the runtime classpath, it needs 
-			// to be added to the Java source set.  See https://kotlinlang.org/docs/reference/using-gradle.html#targeting-the-jvm
 			srcDirs += 'src/test/kotlin'
 		}
 	}
 }
 
+// All that should be needed in IDEA for tests to be recognized is to use the Spek Framework plugin.
 test {
 	useJUnitPlatform {
 		includeEngines 'spek2'

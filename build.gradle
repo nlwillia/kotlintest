@@ -1,6 +1,6 @@
 /*
-	Root build files in multi-project builds tend to be relatively sparse.  The root file applied here injects
-	common settings into all projects.
+	Root build files in multi-project builds tend to be relatively sparse.  The script applied here injects
+	settings common to all projects.
  */
 
-apply from: 'gradle/common/root.gradle'
+apply from: 'gradle/common/projects.gradle'
